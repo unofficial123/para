@@ -1,0 +1,447 @@
+Scala Lab Practical File
+Module 1 and Module 2: Questions, Code and Output
+Each question below is followed by its Scala code, the output and a short explanation. Programs use a fixed random seed or fixed data, so you get the same output every time you run them.
+Module 1
+Q1. Set up Scala and SBT on your system
+Question
+Set up Scala and SBT on your system.
+Commands
+# 1. Check Java (need JDK 11 or 17)
+java -version
+ 
+# 2. Install Coursier, then Scala + sbt
+#    Windows : download cs-x86_64-pc-win32.zip from https://get-coursier.io
+#    Linux/Mac:
+curl -fL https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz | gzip -d > cs
+chmod +x cs
+./cs setup            # installs scala, scalac and sbt
+ 
+# 3. Create the project folders
+mkdir -p scala-lab/src/main/scala && cd scala-lab
+build.sbt (project root)
+ThisBuild / scalaVersion := "2.13.14"
+ 
+lazy val root = (project in file("."))
+  .settings(
+    name := "scala-lab",
+    libraryDependencies ++= Seq(
+      "org.scalanlp"     %% "breeze"     % "2.1.0",
+      "org.scalanlp"     %% "breeze-viz" % "2.1.0",
+      "org.apache.spark" %% "spark-sql"  % "3.5.1"))
+src/main/scala/Hello.scala
+object Hello extends App {
+  println("Hello, Scala!")
+}
+Output
+$ sbt run
+[info] running Hello
+Hello, Scala!
+[success] Total time: 3 s
+How it works
+•	Scala runs on the JVM, so Java (JDK 11 or 17) must be installed first.
+•	Coursier (cs) installs Scala and sbt for you in one command.
+•	build.sbt tells sbt the Scala version and which libraries (Breeze, Spark) to download.
+Q3. Mean, median and mode
+Question
+Calculate mean, median, and mode of a list of numbers.
+Code (Scala)
+object MeanMedianMode extends App {
+  val nums = List(4, 8, 15, 16, 23, 42, 8, 15, 8)
+ 
+  // Mean
+  val mean = nums.sum.toDouble / nums.size
+ 
+  // Median
+  val sorted = nums.sorted
+  val n = sorted.size
+  val median =
+    if (n % 2 == 1) sorted(n / 2).toDouble
+    else (sorted(n / 2 - 1) + sorted(n / 2)) / 2.0
+ 
+  // Mode
+  val mode = nums.groupBy(identity).maxBy(_._2.size)._1
+ 
+  println(s"Numbers : $nums")
+  println(f"Mean    : $mean%.2f")
+  println(s"Median  : $median")
+  println(s"Mode    : $mode")
+}
+Output
+Numbers : List(4, 8, 15, 16, 23, 42, 8, 15, 8)
+Mean    : 15.44
+Median  : 15.0
+Mode    : 8
+How it works
+•	Mean = sum of all numbers divided by how many there are.
+•	Median = the middle value after sorting (average of the two middle values if the count is even).
+•	Mode = the number that appears most often (found with groupBy).
+Q4. Variance and standard deviation of random data
+Question
+Generate a random data set of 10 numbers and calculate variance & standard deviation.
+Code (Scala)
+import scala.util.Random
+ 
+object VarianceStd extends App {
+  val rnd  = new Random(42)                      // fixed seed
+  val data = List.fill(10)(rnd.nextInt(100))     // 10 numbers from 0 to 99
+ 
+  val mean     = data.sum.toDouble / data.size
+  val variance = data.map(x => math.pow(x - mean, 2)).sum / data.size
+  val stdDev   = math.sqrt(variance)
+ 
+  println(s"Data               : $data")
+  println(f"Mean               : $mean%.2f")
+  println(f"Variance           : $variance%.2f")
+  println(f"Standard deviation : $stdDev%.2f")
+}
+Output
+Data               : List(30, 63, 48, 84, 70, 25, 5, 18, 19, 93)
+Mean               : 45.50
+Variance           : 841.05
+Standard deviation : 29.00
+How it works
+•	Random(42) uses a fixed seed, so you get the same numbers every run.
+•	Variance = average of the squared distance of each number from the mean.
+•	Standard deviation = square root of the variance (population formula, divide by n).
+Q6. Random matrix, transpose and determinant (Breeze)
+Question
+Generate a random matrix using Breeze and compute its transpose and determinant.
+Code (Scala)
+import breeze.linalg._
+ 
+object MatrixOps extends App {
+  val rnd = new scala.util.Random(42)
+  // 9 random digits -> 3x3 matrix (Breeze stores data column by column)
+  val m = new DenseMatrix(3, 3, Array.fill(9)(rnd.nextInt(10).toDouble))
+ 
+  def show(mat: DenseMatrix[Double]): Unit =
+    for (i <- 0 until mat.rows)
+      println((0 until mat.cols).map(j => f"${mat(i, j)}%6.1f").mkString)
+ 
+  println("Matrix:");    show(m)
+  println("Transpose:"); show(m.t)
+  println(f"Determinant: ${det(m)}%.2f")
+}
+Output
+Matrix:
+   0.0   4.0   5.0
+   3.0   0.0   8.0
+   8.0   5.0   9.0
+Transpose:
+   0.0   3.0   8.0
+   4.0   0.0   5.0
+   5.0   8.0   9.0
+Determinant: 223.00
+How it works
+•	A 3x3 matrix is filled with random digits (seed 42, so the result is repeatable).
+•	m.t flips rows and columns (transpose).
+•	det(m) gives the determinant; it needs a square matrix.
+Q9. Read a CSV file and calculate basic statistics
+Question
+Read a CSV file and calculate basic statistics for each numeric column.
+students.csv (save in the project folder)
+name,age,marks,fees
+Asha,20,78,45000
+Ravi,22,85,52000
+Meena,21,92,48000
+Karan,23,67,50000
+Sneha,20,88,46000
+Arjun,22,74,51000
+Divya,21,95,47000
+Rohit,24,59,53000
+Code (Scala)
+import scala.io.Source
+ 
+object CsvStats extends App {
+  val lines  = Source.fromFile("students.csv").getLines().toList
+  val header = lines.head.split(",").map(_.trim)
+  val rows   = lines.tail.map(_.split(",").map(_.trim))
+ 
+  for ((col, idx) <- header.zipWithIndex) {
+    val values = rows.map(_(idx))
+    if (values.forall(_.toDoubleOption.isDefined)) {      // numeric column?
+      val nums = values.map(_.toDouble)
+      val mean = nums.sum / nums.size
+      val std  = math.sqrt(nums.map(x => math.pow(x - mean, 2)).sum / nums.size)
+      println(f"$col%-8s count=${nums.size} min=${nums.min}%.1f " +
+        f"max=${nums.max}%.1f mean=$mean%.2f std=$std%.2f")
+    }
+  }
+}
+Output
+age      count=8 min=20.0 max=24.0 mean=21.62 std=1.32
+marks    count=8 min=59.0 max=95.0 mean=79.75 std=11.77
+fees     count=8 min=45000.0 max=53000.0 mean=49000.00 std=2738.61
+How it works
+•	Read every line, split on commas, and treat the first line as the header.
+•	A column is numeric only if every value can be converted to a number (the name column is skipped).
+•	For each numeric column: count, min, max, mean and standard deviation are printed.
+Q12. Tokenize a text file and count word frequency
+Question
+Write a program to tokenize and count the frequency of words in a text file.
+sample.txt (save in the project folder)
+Scala is fun. Scala runs on the JVM. Spark is written in Scala and Spark is fast.
+Code (Scala)
+import scala.io.Source
+ 
+object WordCount extends App {
+  val text  = Source.fromFile("sample.txt").mkString
+  val words = text.toLowerCase.split("[^a-z]+").filter(_.nonEmpty)  // tokenize
+ 
+  val counts = words
+    .groupBy(identity)
+    .view.mapValues(_.length)
+    .toList
+    .sortBy { case (word, c) => (-c, word) }   // most frequent first
+ 
+  println(s"Total words: ${words.length}")
+  counts.foreach { case (word, c) => println(f"$word%-8s $c") }
+}
+Output
+Total words: 17
+is       3
+scala    3
+spark    2
+and      1
+fast     1
+fun      1
+in       1
+jvm      1
+on       1
+runs     1
+the      1
+written  1
+How it works
+•	Convert the text to lower case so 'Scala' and 'scala' count as the same word.
+•	split("[^a-z]+") breaks the text at every non-letter (spaces, dots) - this is tokenizing.
+•	groupBy(identity) collects equal words together and the group size is the frequency.
+Q14. Scatter plot with labelled axes and custom colour (Breeze-viz)
+Question
+Create a scatter plot of random data using Breeze-viz. Label the axes and customize color.
+Code (Scala)
+import breeze.linalg._
+import breeze.plot._
+import java.awt.Color
+ 
+object ScatterPlot extends App {
+  val rnd = new scala.util.Random(42)
+  val x = DenseVector.fill(30)(rnd.nextDouble() * 100)
+  val y = DenseVector.fill(30)(rnd.nextDouble() * 100)
+ 
+  val fig = Figure("Scatter")
+  val p   = fig.subplot(0)
+  p += scatter(x, y, _ => 1.5, _ => Color.RED)      // size 1.5, red dots
+  p.xlabel = "X axis (random values)"
+  p.ylabel = "Y axis (random values)"
+  p.title  = "Scatter plot of random data"
+  fig.saveas("scatter.png")
+}
+Output
+Creates scatter.png - the plot below (30 red points, labelled axes):
+ 
+How it works
+•	30 random x values and 30 random y values (0 to 100) are generated.
+•	scatter(...) draws one dot per (x, y) pair; the colour function makes every dot red.
+•	xlabel, ylabel and title name the plot; saveas writes it to a PNG file.
+Q15. Histogram with different bin sizes (Breeze-viz)
+Question
+Generate a histogram of a dataset using Breeze-viz. Experiment with different bin sizes.
+Code (Scala)
+import breeze.linalg._
+import breeze.plot._
+ 
+object HistogramPlot extends App {
+  val rnd  = new scala.util.Random(7)
+  val data = DenseVector.fill(200)(rnd.nextInt(100).toDouble)
+ 
+  for (bins <- Seq(5, 10, 20)) {
+    val fig = Figure(s"Histogram - $bins bins")
+    val p   = fig.subplot(0)
+    p += hist(data, bins)
+    p.xlabel = "Value"
+    p.ylabel = "Frequency"
+    p.title  = s"$bins bins"
+    fig.saveas(s"hist_$bins.png")
+  }
+}
+Output
+Creates hist_5.png, hist_10.png and hist_20.png - shown side by side below:
+ 
+How it works
+•	200 random numbers between 0 and 99 are the dataset.
+•	hist(data, bins) splits the range into equal 'bins' and counts values in each.
+•	Few bins (5) give a rough shape; many bins (20) show more detail but look noisier.
+Q16. Scatter and line plot combined (Breeze-viz)
+Question
+Combine two plots (scatter and line plot) in a single visualization using Breeze-viz.
+Code (Scala)
+import breeze.linalg._
+import breeze.plot._
+import java.awt.Color
+ 
+object CombinedPlot extends App {
+  val rnd = new scala.util.Random(21)
+  val x = DenseVector((1 to 15).map(_.toDouble).toArray)
+  val y = x.map(v => 3 * v + rnd.nextInt(15))        // noisy data
+  val trend = x.map(v => 3 * v + 7)                  // straight line
+ 
+  val fig = Figure("Combined")
+  val p   = fig.subplot(0)
+  p += scatter(x, y, _ => 0.3, _ => Color.RED, name = "Data points")
+  p += plot(x, trend, '-', "blue", name = "Trend line y = 3x + 7")
+  p.xlabel = "x"
+  p.ylabel = "y"
+  p.title  = "Scatter + line in one plot"
+  p.legend = true
+  fig.saveas("combined.png")
+}
+Output
+Creates combined.png - the plot below:
+ 
+How it works
+•	Both plots are added to the same subplot with += so they share the same axes.
+•	The red dots are the data; the blue line is the trend line y = 3x + 7.
+•	Giving each plot a name lets Breeze draw a legend.
+Module 2
+Q4. Sort a dataset by a column and extract the top 5 rows
+Question
+Sort a dataset by a specific column and extract the top 5 rows.
+Code (Scala)
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions._
+ 
+object TopFive extends App {
+  val spark = SparkSession.builder()
+    .appName("TopFive").master("local[*]").getOrCreate()
+  import spark.implicits._
+ 
+  val df = Seq(
+    ("Asha", "IT", 65000),   ("Ravi", "HR", 48000),
+    ("Meena", "IT", 82000),  ("Karan", "Sales", 55000),
+    ("Sneha", "HR", 51000),  ("Arjun", "Sales", 61000),
+    ("Divya", "IT", 74000),  ("Rohit", "Finance", 69000)
+  ).toDF("name", "dept", "salary")
+ 
+  df.orderBy(desc("salary")).limit(5).show()
+  spark.stop()
+}
+Output
++-----+-------+------+
+| name|   dept|salary|
++-----+-------+------+
+|Meena|     IT| 82000|
+|Divya|     IT| 74000|
+|Rohit|Finance| 69000|
+| Asha|     IT| 65000|
+|Arjun|  Sales| 61000|
++-----+-------+------+
+How it works
+•	The dataset is a Spark DataFrame of employees with a salary column.
+•	orderBy(desc("salary")) sorts from highest to lowest salary.
+•	limit(5) keeps only the first 5 rows, i.e. the top 5.
+Q2. Moving average of a time series (Scala collections)
+Question
+Calculate the moving average of a time series data using Scala collections.
+Code (Scala)
+object MovingAverage extends App {
+  val series = List(10, 12, 13, 12, 15, 16, 18, 17, 19, 21)
+  val window = 3
+ 
+  val movingAvg = series.sliding(window).map(w => w.sum.toDouble / window).toList
+ 
+  println(s"Series         : $series")
+  println(s"3-day moving avg:")
+  movingAvg.zipWithIndex.foreach { case (avg, i) =>
+    println(f"  Day ${i + window}%2d -> $avg%.2f")
+  }
+}
+Output
+Series         : List(10, 12, 13, 12, 15, 16, 18, 17, 19, 21)
+3-day moving avg:
+  Day  3 -> 11.67
+  Day  4 -> 12.33
+  Day  5 -> 13.33
+  Day  6 -> 14.33
+  Day  7 -> 16.33
+  Day  8 -> 17.00
+  Day  9 -> 18.00
+  Day 10 -> 19.00
+How it works
+•	The list holds one value per day (a time series).
+•	sliding(3) creates overlapping windows of 3 values: (10,12,13), (12,13,12), ...
+•	The average of each window is the 3-day moving average; it smooths out the ups and downs.
+Q1. Pearson correlation coefficient
+Question
+Find the correlation between two lists of numbers. Implement the formula for Pearson correlation coefficient.
+Code (Scala)
+object Pearson extends App {
+  def pearson(x: List[Double], y: List[Double]): Double = {
+    val n   = x.size
+    val sx  = x.sum
+    val sy  = y.sum
+    val sxy = x.zip(y).map { case (a, b) => a * b }.sum
+    val sx2 = x.map(a => a * a).sum
+    val sy2 = y.map(b => b * b).sum
+ 
+    (n * sxy - sx * sy) / math.sqrt((n * sx2 - sx * sx) * (n * sy2 - sy * sy))
+  }
+ 
+  val x = List(1.0, 2.0, 3.0, 4.0, 5.0)
+  val y = List(2.0, 4.0, 5.0, 4.0, 5.0)
+ 
+  println(s"X = $x")
+  println(s"Y = $y")
+  println(f"Pearson correlation = ${pearson(x, y)}%.4f")
+}
+Output
+X = List(1.0, 2.0, 3.0, 4.0, 5.0)
+Y = List(2.0, 4.0, 5.0, 4.0, 5.0)
+Pearson correlation = 0.7746
+How it works
+•	Formula: r = (nΣxy - ΣxΣy) / √[(nΣx² - (Σx)²)(nΣy² - (Σy)²)]
+•	r is always between -1 and +1: near +1 means both lists rise together, near -1 means one rises while the other falls, near 0 means no linear relation.
+•	Here r is about 0.77, a fairly strong positive correlation.
+Q11. GroupBy and aggregate with a Spark DataFrame
+Question
+GroupBy and Aggregate with Spark DataFrame.
+Code (Scala)
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions._
+ 
+object GroupByAgg extends App {
+  val spark = SparkSession.builder()
+    .appName("GroupByAgg").master("local[*]").getOrCreate()
+  import spark.implicits._
+ 
+  val df = Seq(
+    ("Asha", "IT", 65000),   ("Ravi", "HR", 48000),
+    ("Meena", "IT", 82000),  ("Karan", "Sales", 55000),
+    ("Sneha", "HR", 51000),  ("Arjun", "Sales", 61000),
+    ("Divya", "IT", 74000),  ("Rohit", "Finance", 69000)
+  ).toDF("name", "dept", "salary")
+ 
+  df.groupBy("dept")
+    .agg(
+      count("*").as("employees"),
+      sum("salary").as("total_salary"),
+      round(avg("salary"), 2).as("avg_salary"),
+      max("salary").as("max_salary")
+    )
+    .orderBy("dept")
+    .show()
+ 
+  spark.stop()
+}
+Output
++-------+---------+------------+----------+----------+
+|   dept|employees|total_salary|avg_salary|max_salary|
++-------+---------+------------+----------+----------+
+|Finance|        1|       69000|   69000.0|     69000|
+|     HR|        2|       99000|   49500.0|     51000|
+|     IT|        3|      221000|  73666.67|     82000|
+|  Sales|        2|      116000|   58000.0|     61000|
++-------+---------+------------+----------+----------+
+How it works
+•	groupBy("dept") puts all rows of the same department together.
+•	agg(...) calculates several summary values for each group: head-count, total, average and highest salary.
+•	orderBy("dept") sorts the result alphabetically so the output order is stable.
