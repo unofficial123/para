@@ -1,0 +1,2105 @@
+Practical 1(a)
+Aim: Program to enter name and age and calculate the year when the user will turn 100.
+Code:
+
+
+
+
+
+
+
+import datetime
+ 
+name = input("Enter your name: ")
+age = int(input("Enter your age: "))
+ 
+current_year = datetime.date.today().year
+year_100 = current_year + (100 - age)
+ 
+print(f"Hello {name}, you will turn 100 years old in the year {year_100}.")
+Output:
+
+
+
+
+
+
+
+
+
+
+
+Enter your name: Rahul
+Enter your age: 20
+Hello Rahul, you will turn 100 years old in the year 2106.
+
+Practical 1(b)
+Aim: Program to accept a number and check whether it is even or odd.
+
+
+
+Code:
+num = int(input("Enter a number: "))
+ 
+if num % 2 == 0:
+    print(num, "is an Even number")
+else:
+    print(num, "is an Odd number")
+
+
+Output:
+Enter a number: 7
+7 is an Odd number
+
+
+Practical 1(c)
+
+
+Aim: Program to accept SGPI and print the corresponding grade.
+
+Code:
+sgpi = float(input("Enter your SGPI (0 - 10): "))
+ 
+if sgpi < 0 or sgpi > 10:
+    print("Invalid SGPI")
+else:
+    if sgpi >= 9:
+        grade = "O (Outstanding)"
+    elif sgpi >= 8:
+        grade = "A+ (Excellent)"
+    elif sgpi >= 7:
+        grade = "A (Very Good)"
+    elif sgpi >= 6:
+        grade = "B+ (Good)"
+    elif sgpi >= 5:
+        grade = "B (Average)"
+    elif sgpi >= 4:
+        grade = "C (Pass)"
+    else:
+        grade = "F (Fail)"
+    print("SGPI:", sgpi)
+    print("Grade:", grade)
+
+
+
+
+Output:
+Enter your SGPI (0 - 10): 8.2
+SGPI: 8.2
+Grade: A+ (Excellent)
+
+
+
+
+Practical 2(a)
+Aim: Program to generate the Fibonacci series.
+Code:
+n = int(input("Enter the number of terms: "))
+ 
+a, b = 0, 1
+print("Fibonacci series:")
+for i in range(n):
+    print(a, end=" ")
+    a, b = b, a + b
+print()
+
+
+
+
+
+
+Output:
+Enter the number of terms: 10
+Fibonacci series:
+0 1 1 2 3 5 8 13 21 34 
+
+
+
+
+
+Practical 2(b)
+Aim: Program to accept a number and display the sum of its digits.
+
+
+
+
+
+
+Code:
+num = int(input("Enter a number: "))
+ 
+temp = num
+total = 0
+while temp > 0:
+    digit = temp % 10
+    total = total + digit
+    temp = temp // 10
+ 
+print("Sum of the digits of", num, "is", total)
+
+
+
+
+
+Output:
+Enter a number: 1234
+Sum of the digits of 1234 is 10
+
+
+
+
+
+
+
+
+Practical 3(a)
+Aim: Program to perform basic operations, indexing and slicing on arrays.
+
+
+
+
+
+
+
+
+Code:
+import numpy as np
+ 
+a = np.array([10, 20, 30, 40, 50, 60])
+b = np.array([1, 2, 3, 4, 5, 6])
+ 
+print("Array a:", a)
+print("Array b:", b)
+ 
+# Basic operations
+print("\nBasic operations")
+print("a + b =", a + b)
+print("a - b =", a - b)
+print("a * b =", a * b)
+print("a / b =", a / b)
+print("a * 2 =", a * 2)
+ 
+# Indexing
+print("\nIndexing")
+print("First element  a[0]  =", a[0])
+print("Last element   a[-1] =", a[-1])
+print("Element at index 3   =", a[3])
+ 
+# Slicing
+print("\nSlicing")
+print("a[1:4]  =", a[1:4])
+print("a[:3]   =", a[:3])
+print("a[3:]   =", a[3:])
+print("a[::2]  =", a[::2])
+print("a[::-1] =", a[::-1])
+
+
+
+
+
+
+
+Output:
+Array a: [10 20 30 40 50 60]
+Array b: [1 2 3 4 5 6]
+ 
+Basic operations
+a + b = [11 22 33 44 55 66]
+a - b = [ 9 18 27 36 45 54]
+a * b = [ 10  40  90 160 250 360]
+a / b = [10. 10. 10. 10. 10. 10.]
+a * 2 = [ 20  40  60  80 100 120]
+ 
+Indexing
+First element  a[0]  = 10
+Last element   a[-1] = 60
+Element at index 3   = 40
+ 
+Slicing
+a[1:4]  = [20 30 40]
+a[:3]   = [10 20 30]
+a[3:]   = [40 50 60]
+a[::2]  = [10 30 50]
+a[::-1] = [60 50 40 30 20 10]
+
+
+
+
+
+
+
+
+Practical 3(b)
+Aim: Program to implement mathematical functions on arrays.
+
+
+
+
+
+
+
+
+
+
+
+
+Code:
+import numpy as np
+ 
+arr = np.array([1, 4, 9, 16, 25])
+print("Array:", arr)
+ 
+print("Square root      :", np.sqrt(arr))
+print("Square           :", np.square(arr))
+print("Power (arr ** 3) :", np.power(arr, 3))
+print("Exponential      :", np.round(np.exp(np.array([1, 2, 3])), 3))
+print("Natural log      :", np.round(np.log(arr), 3))
+print("Log base 10      :", np.round(np.log10(arr), 3))
+ 
+angles = np.radians([0, 30, 60, 90])
+print("Sine             :", np.round(np.sin(angles), 3))
+print("Cosine           :", np.round(np.cos(angles), 3))
+ 
+print("Sum              :", np.sum(arr))
+print("Mean             :", np.mean(arr))
+print("Minimum          :", np.min(arr))
+print("Maximum          :", np.max(arr))
+print("Standard deviation:", round(np.std(arr), 3))
+print("Cumulative sum   :", np.cumsum(arr))
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Array: [ 1  4  9 16 25]
+Square root      : [1. 2. 3. 4. 5.]
+Square           : [  1  16  81 256 625]
+Power (arr ** 3) : [    1    64   729  4096 15625]
+Exponential      : [ 2.718  7.389 20.086]
+Natural log      : [0.    1.386 2.197 2.773 3.219]
+Log base 10      : [0.    0.602 0.954 1.204 1.398]
+Sine             : [0.    0.5   0.866 1.   ]
+Cosine           : [1.    0.866 0.5   0.   ]
+Sum              : 55
+Mean             : 11.0
+Minimum          : 1
+Maximum          : 25
+Standard deviation: 8.649
+Cumulative sum   : [ 1  5 14 30 55]
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 3(c)
+Aim: Program to perform array aliasing and copying.
+Code:
+import numpy as np
+ 
+a = np.array([1, 2, 3, 4, 5])
+print("Original array a:", a)
+ 
+# Aliasing: both names refer to the same array object
+b = a
+print("\nb = a  ->  b is a:", b is a)
+b[0] = 100
+print("After b[0] = 100:")
+print("a =", a)
+print("b =", b)
+ 
+# Deep copy: a completely separate array
+c = a.copy()
+c[1] = 200
+print("\nc = a.copy()  ->  c is a:", c is a)
+print("After c[1] = 200:")
+print("a =", a)
+print("c =", c)
+ 
+# View (shallow copy): new object, same data
+d = a.view()
+d[2] = 300
+print("\nd = a.view()  ->  d is a:", d is a, ", d.base is a:", d.base is a)
+print("After d[2] = 300:")
+print("a =", a)
+print("d =", d)
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Original array a: [1 2 3 4 5]
+ 
+b = a  ->  b is a: True
+After b[0] = 100:
+a = [100   2   3   4   5]
+b = [100   2   3   4   5]
+ 
+c = a.copy()  ->  c is a: False
+After c[1] = 200:
+a = [100   2   3   4   5]
+c = [100 200   3   4   5]
+ 
+d = a.view()  ->  d is a: False , d.base is a: True
+After d[2] = 300:
+a = [100   2 300   4   5]
+d = [100   2 300   4   5]
+
+
+
+
+
+
+
+
+
+Practical 4(a)
+Aim: Program to perform slicing, basic and advanced indexing on NumPy arrays.
+
+
+
+
+Code:
+import numpy as np
+ 
+arr = np.array([[1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [9, 10, 11, 12]])
+print("Array:\n", arr)
+ 
+# Basic indexing
+print("\nBasic indexing")
+print("arr[1, 2] =", arr[1, 2])
+print("arr[2][3] =", arr[2][3])
+ 
+# Slicing
+print("\nSlicing")
+print("arr[0:2, 1:3] =\n", arr[0:2, 1:3])
+print("arr[:, 2] =", arr[:, 2])
+print("arr[1, :] =", arr[1, :])
+ 
+# Advanced indexing
+print("\nAdvanced indexing")
+print("Integer array indexing arr[[0, 1, 2], [1, 2, 3]] =", arr[[0, 1, 2], [1, 2, 3]])
+print("Selecting rows 0 and 2 =\n", arr[[0, 2]])
+print("Boolean indexing arr[arr > 6] =", arr[arr > 6])
+print("Even elements =", arr[arr % 2 == 0])
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Array:
+ [[ 1  2  3  4]
+ [ 5  6  7  8]
+ [ 9 10 11 12]]
+ 
+Basic indexing
+arr[1, 2] = 7
+arr[2][3] = 12
+ 
+Slicing
+arr[0:2, 1:3] =
+ [[2 3]
+ [6 7]]
+arr[:, 2] = [ 3  7 11]
+arr[1, :] = [5 6 7 8]
+ 
+Advanced indexing
+Integer array indexing arr[[0, 1, 2], [1, 2, 3]] = [ 2  7 12]
+Selecting rows 0 and 2 =
+ [[ 1  2  3  4]
+ [ 9 10 11 12]]
+Boolean indexing arr[arr > 6] = [ 7  8  9 10 11 12]
+Even elements = [ 2  4  6  8 10 12]
+
+
+
+
+
+
+
+
+
+
+
+Practical 4(b)
+Aim: Program to analyze dimensions and attributes of NumPy arrays.
+Code:
+import numpy as np
+ 
+arr = np.array([[[1, 2, 3], [4, 5, 6]],
+                [[7, 8, 9], [10, 11, 12]]])
+ 
+print("Array:\n", arr)
+print("\nNumber of dimensions (ndim):", arr.ndim)
+print("Shape                      :", arr.shape)
+print("Total elements (size)      :", arr.size)
+print("Data type (dtype)          :", arr.dtype)
+print("Size of each item (bytes)  :", arr.itemsize)
+print("Total bytes (nbytes)       :", arr.nbytes)
+print("Strides                    :", arr.strides)
+ 
+reshaped = arr.reshape(3, 4)
+print("\nReshaped to (3, 4):\n", reshaped)
+print("New shape:", reshaped.shape)
+print("Transpose shape:", reshaped.T.shape)
+print("Flattened:", arr.flatten())
+Output:
+Array:
+ [[[ 1  2  3]
+  [ 4  5  6]]
+ 
+ [[ 7  8  9]
+  [10 11 12]]]
+ 
+Number of dimensions (ndim): 3
+Shape                      : (2, 2, 3)
+Total elements (size)      : 12
+Data type (dtype)          : int64
+Size of each item (bytes)  : 8
+Total bytes (nbytes)       : 96
+Strides                    : (48, 24, 8)
+ 
+Reshaped to (3, 4):
+ [[ 1  2  3  4]
+ [ 5  6  7  8]
+ [ 9 10 11 12]]
+New shape: (3, 4)
+Transpose shape: (4, 3)
+Flattened: [ 1  2  3  4  5  6  7  8  9 10 11 12]
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 5(a)
+Aim: Function to check whether an input value is Armstrong and a function for Palindrome.
+Code:
+def is_armstrong(n):
+    digits = str(n)
+    power = len(digits)
+    total = sum(int(d) ** power for d in digits)
+    return total == n
+ 
+ 
+def is_palindrome(n):
+    s = str(n)
+    return s == s[::-1]
+ 
+ 
+num1 = int(input("Enter a number to check Armstrong: "))
+if is_armstrong(num1):
+    print(num1, "is an Armstrong number")
+else:
+    print(num1, "is not an Armstrong number")
+ 
+num2 = int(input("Enter a number to check Palindrome: "))
+if is_palindrome(num2):
+    print(num2, "is a Palindrome")
+else:
+    print(num2, "is not a Palindrome")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Enter a number to check Armstrong: 153
+153 is an Armstrong number
+Enter a number to check Palindrome: 121
+121 is a Palindrome
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 5(b)
+Aim: Recursive function to print the factorial of a given number.
+Code:
+def factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * factorial(n - 1)
+ 
+ 
+num = int(input("Enter a number: "))
+ 
+if num < 0:
+    print("Factorial is not defined for negative numbers")
+else:
+    print("Factorial of", num, "is", factorial(num))
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Enter a number: 5
+Factorial of 5 is 120
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 5(c)
+Aim: Lambda function to check whether a given string starts with a specific character.
+Code:
+starts_with = lambda text, ch: text.startswith(ch)
+ 
+text = input("Enter a string: ")
+ch = input("Enter the character to check: ")
+ 
+if starts_with(text, ch):
+    print(f"The string '{text}' starts with '{ch}'")
+else:
+    print(f"The string '{text}' does not start with '{ch}'")
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Enter a string: Python
+Enter the character to check: P
+The string 'Python' starts with 'P'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 6(a)
+Aim: Program to compute the number of characters and words in a string.
+Code:
+text = input("Enter a string: ")
+ 
+characters = len(text)
+characters_without_spaces = len(text.replace(" ", ""))
+words = len(text.split())
+ 
+print("Number of characters (with spaces)   :", characters)
+print("Number of characters (without spaces):", characters_without_spaces)
+print("Number of words                      :", words)
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Enter a string: Python is easy to learn
+Number of characters (with spaces)   : 23
+Number of characters (without spaces): 19
+Number of words                      : 5
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 6(b)
+Aim: Create geometry.py for square/circle areas and another file for square-pyramid/right-circular-cone volume.
+Code (geometry.py):
+import math
+ 
+ 
+def square_area(side):
+    return side * side
+ 
+ 
+def circle_area(radius):
+    return math.pi * radius * radius
+Code (solids.py):
+import math
+ 
+ 
+def square_pyramid_volume(base, height):
+    return (base * base * height) / 3
+ 
+ 
+def right_circular_cone_volume(radius, height):
+    return (math.pi * radius * radius * height) / 3
+Code (practical6b.py):
+import geometry
+import solids
+ 
+side = float(input("Enter side of the square: "))
+radius = float(input("Enter radius of the circle: "))
+print("Area of square :", round(geometry.square_area(side), 2))
+print("Area of circle :", round(geometry.circle_area(radius), 2))
+ 
+base = float(input("Enter base of the square pyramid: "))
+height = float(input("Enter height of the square pyramid: "))
+print("Volume of square pyramid :", round(solids.square_pyramid_volume(base, height), 2))
+ 
+r = float(input("Enter radius of the cone: "))
+h = float(input("Enter height of the cone: "))
+print("Volume of right circular cone :", round(solids.right_circular_cone_volume(r, h), 2))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Enter side of the square: 4
+Enter radius of the circle: 3
+Area of square : 16.0
+Area of circle : 28.27
+Enter base of the square pyramid: 6
+Enter height of the square pyramid: 5
+Volume of square pyramid : 60.0
+Enter radius of the cone: 3
+Enter height of the cone: 7
+Volume of right circular cone : 65.97
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 7(a)
+Aim: Program that takes two lists and returns True if they have at least one common member.
+Code:
+def common_member(list1, list2):
+    for item in list1:
+        if item in list2:
+            return True
+    return False
+ 
+ 
+a = [1, 2, 3, 4, 5]
+b = [5, 6, 7, 8, 9]
+print("List 1:", a)
+print("List 2:", b)
+print("Common member exists:", common_member(a, b))
+ 
+c = [1, 2, 3]
+d = [4, 5, 6]
+print("\nList 1:", c)
+print("List 2:", d)
+print("Common member exists:", common_member(c, d))
+
+
+
+
+
+
+
+
+
+
+
+Output:
+List 1: [1, 2, 3, 4, 5]
+List 2: [5, 6, 7, 8, 9]
+Common member exists: True
+ 
+List 1: [1, 2, 3]
+List 2: [4, 5, 6]
+Common member exists: False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 7(b)
+Aim: Python script to sort a dictionary by value in ascending and descending order.
+Code:
+data = {"apple": 50, "banana": 20, "cherry": 75, "date": 10}
+print("Original dictionary:", data)
+ 
+ascending = dict(sorted(data.items(), key=lambda item: item[1]))
+descending = dict(sorted(data.items(), key=lambda item: item[1], reverse=True))
+ 
+print("Ascending order by value :", ascending)
+print("Descending order by value:", descending)
+
+
+
+
+
+
+
+
+
+
+Output:
+Original dictionary: {'apple': 50, 'banana': 20, 'cherry': 75, 'date': 10}
+Ascending order by value : {'date': 10, 'banana': 20, 'apple': 50, 'cherry': 75}
+Descending order by value: {'cherry': 75, 'apple': 50, 'banana': 20, 'date': 10}
+
+
+
+
+
+
+
+
+
+
+
+Practical 8(a)
+Aim: Program to pass radius to a function that returns area and circumference using a tuple.
+Code:
+import math
+ 
+ 
+def circle_details(radius):
+    area = math.pi * radius ** 2
+    circumference = 2 * math.pi * radius
+    return (area, circumference)
+ 
+ 
+r = float(input("Enter the radius: "))
+result = circle_details(r)
+ 
+print("Tuple returned:", result)
+print("Area          = {:.2f}".format(result[0]))
+print("Circumference = {:.2f}".format(result[1]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Enter the radius: 5
+Tuple returned: (78.53981633974483, 31.41592653589793)
+Area          = 78.54
+Circumference = 31.42
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 8(b)
+Aim: Program to perform basic file operations on text files and binary files.
+Code:
+import os
+ 
+# ---------- Text file ----------
+with open("sample.txt", "w") as f:
+    f.write("Hello, World!\n")
+    f.write("Welcome to Python file handling.\n")
+print("Text file created and written.")
+ 
+with open("sample.txt", "r") as f:
+    print("\nReading the text file:")
+    print(f.read())
+ 
+with open("sample.txt", "a") as f:
+    f.write("This line is appended.\n")
+ 
+with open("sample.txt", "r") as f:
+    print("After appending, reading line by line:")
+    for line in f:
+        print(line, end="")
+ 
+print("\nFile size (bytes):", os.path.getsize("sample.txt"))
+ 
+# ---------- Binary file ----------
+data = bytes([65, 66, 67, 68, 69])
+with open("data.bin", "wb") as f:
+    f.write(data)
+print("\nBinary file written.")
+ 
+with open("data.bin", "rb") as f:
+    content = f.read()
+print("Binary content :", content)
+print("As list of ints:", list(content))
+ 
+os.remove("sample.txt")
+os.remove("data.bin")
+print("\nFiles deleted.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Text file created and written.
+ 
+Reading the text file:
+Hello, World!
+Welcome to Python file handling.
+ 
+After appending, reading line by line:
+Hello, World!
+Welcome to Python file handling.
+This line is appended.
+ 
+File size (bytes): 70
+ 
+Binary file written.
+Binary content : b'ABCDE'
+As list of ints: [65, 66, 67, 68, 69]
+ 
+Files deleted.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 8(c)
+Aim: Python program to read the last n lines of a file.
+Code:
+import os
+ 
+# create a sample file with 8 lines
+with open("lines.txt", "w") as f:
+    for i in range(1, 9):
+        f.write(f"This is line {i}\n")
+ 
+n = int(input("Enter the value of n: "))
+ 
+with open("lines.txt", "r") as f:
+    lines = f.readlines()
+ 
+print(f"Last {n} lines of the file:")
+for line in lines[-n:]:
+    print(line, end="")
+ 
+os.remove("lines.txt")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Enter the value of n: 3
+Last 3 lines of the file:
+This is line 6
+This is line 7
+This is line 8
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 9(a)
+Aim: Program to count occurrences of a specific word in a file using regular expressions.
+Code:
+import re
+import os
+ 
+# create a sample file
+with open("story.txt", "w") as f:
+    f.write("Python is a popular language. Many people love Python because Python is easy.\n")
+    f.write("Learning python is fun.\n")
+ 
+word = input("Enter the word to search: ")
+ 
+with open("story.txt", "r") as f:
+    text = f.read()
+ 
+matches = re.findall(r"\b" + re.escape(word) + r"\b", text, re.IGNORECASE)
+print(f"The word '{word}' occurs {len(matches)} times in the file.")
+ 
+os.remove("story.txt")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Enter the word to search: python
+The word 'python' occurs 4 times in the file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 9(b)
+Aim: Program to extract all hyperlinks from an HTML file.
+Code:
+import re
+import os
+ 
+html = """<html>
+<body>
+<h1>My Links</h1>
+<a href="https://www.google.com">Google</a>
+<a href="https://www.python.org">Python</a>
+<p>Visit <a href='https://www.wikipedia.org'>Wikipedia</a></p>
+</body>
+</html>"""
+ 
+with open("sample.html", "w") as f:
+    f.write(html)
+ 
+with open("sample.html", "r") as f:
+    content = f.read()
+ 
+links = re.findall(r'href=["\'](.*?)["\']', content)
+ 
+print("Hyperlinks found in the HTML file:")
+for i, link in enumerate(links, start=1):
+    print(i, link)
+ 
+os.remove("sample.html")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Hyperlinks found in the HTML file:
+1 https://www.google.com
+2 https://www.python.org
+3 https://www.wikipedia.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 10(a)
+Aim: Program to compare two dates in DD/MM/YYYY format and print which one is earlier.
+Code:
+from datetime import datetime
+ 
+d1 = input("Enter first date (DD/MM/YYYY): ")
+d2 = input("Enter second date (DD/MM/YYYY): ")
+ 
+date1 = datetime.strptime(d1, "%d/%m/%Y")
+date2 = datetime.strptime(d2, "%d/%m/%Y")
+ 
+if date1 < date2:
+    print(d1, "is earlier than", d2)
+elif date2 < date1:
+    print(d2, "is earlier than", d1)
+else:
+    print("Both dates are the same")
+Output:
+Enter first date (DD/MM/YYYY): 15/08/2025
+Enter second date (DD/MM/YYYY): 26/01/2026
+15/08/2025 is earlier than 26/01/2026
+Practical 10(b)
+Aim: Program to measure program execution time.
+Code:
+import time
+ 
+start = time.time()
+ 
+total = 0
+for i in range(1, 5000001):
+    total += i
+ 
+end = time.time()
+ 
+print("Sum of first 5000000 numbers:", total)
+print("Execution time: {:.4f} seconds".format(end - start))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Sum of first 5000000 numbers: 12500002500000
+Execution time: 0.4144 seconds
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 10(c)
+Aim: Program using the calendar module to print the weekday of the first day of a given month and year.
+Code:
+import calendar
+ 
+year = int(input("Enter the year: "))
+month = int(input("Enter the month (1-12): "))
+ 
+day_index = calendar.weekday(year, month, 1)
+print("The first day of", calendar.month_name[month], year, "is", calendar.day_name[day_index])
+ 
+print()
+print(calendar.month(year, month))
+
+
+
+
+
+
+Output:
+Enter the year: 2026
+Enter the month (1-12): 10
+The first day of October 2026 is Thursday
+ 
+    October 2026
+Mo Tu We Th Fr Sa Su
+          1  2  3  4
+ 5  6  7  8  9 10 11
+12 13 14 15 16 17 18
+19 20 21 22 23 24 25
+26 27 28 29 30 31
+
+
+
+
+Data Structures Practical File
+Practicals 1 to 19
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 1: Linear Search
+Question:
+Write a Python program to search for an element in a list using Linear Search.
+Code:
+A = [2, 3, 1, 5, 7]
+B = int(input("Enter number to search: "))
+index = 0
+for i in A:
+    if i == B:
+        print("Element is found at position", index)
+        break
+    index = index + 1
+else:
+    print("Element is not found!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Enter number to search: 4
+Element is not found!
+ 
+Enter number to search: 3
+Element is found at position 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 2: Binary Search
+Question:
+Write a Python program to search for an element in a sorted list using Binary Search.
+Code:
+A = [2, 3, 1, 5, 7]
+print("Unsorted Array:", A)
+A.sort()
+print("Sorted Array:", A)
+B = int(input("Enter number to search: "))
+H = 0
+T = len(A) - 1
+while H <= T:
+    M = (H + T) // 2
+    if A[M] == B:
+        print("Element is found")
+        break
+    elif A[M] < B:
+        H = M + 1
+    else:
+        T = M - 1
+else:
+    print("Element is not found")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Unsorted Array: [2, 3, 1, 5, 7]
+Sorted Array: [1, 2, 3, 5, 7]
+Enter number to search: 3
+Element is found
+ 
+Unsorted Array: [2, 3, 1, 5, 7]
+Sorted Array: [1, 2, 3, 5, 7]
+Enter number to search: 4
+Element is not found
+Practical 3: Merge Sort
+Question:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Write a Python program to sort a list of numbers using Merge Sort.
+Code:
+def merge_sort(arr):
+    if len(arr) > 1:
+        mid = len(arr) // 2
+        left = arr[:mid]
+        right = arr[mid:]
+        merge_sort(left)
+        merge_sort(right)
+        i = j = k = 0
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                arr[k] = left[i]
+                i += 1
+            else:
+                arr[k] = right[j]
+                j += 1
+            k += 1
+        while i < len(left):
+            arr[k] = left[i]
+            i += 1
+            k += 1
+        while j < len(right):
+            arr[k] = right[j]
+            j += 1
+            k += 1
+ 
+arr = list(map(int, input("Enter elements: ").split()))
+merge_sort(arr)
+print("Sorted Array:", arr)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Enter elements: 5 55 666 777
+Sorted Array: [5, 55, 666, 777]
+Practical 4: Insertion Sort
+
+
+
+
+
+
+
+
+
+
+
+
+Question:
+Write a Python program to sort a list of numbers using Insertion Sort.
+Code:
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+ 
+arr = list(map(int, input("Enter elements: ").split()))
+insertion_sort(arr)
+print("Sorted Array:", arr)
+
+
+
+Output:
+Enter elements: 8 4 6 2 9
+Sorted Array: [2, 4, 6, 8, 9]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 5: Selection Sort
+Question:
+Write a Python program to sort a list of numbers using Selection Sort.
+Code:
+def selection_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        min_index = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+ 
+arr = list(map(int, input("Enter elements: ").split()))
+selection_sort(arr)
+print("Sorted Array:", arr)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Enter elements: 29 10 14 37  13
+Sorted Array: [10, 13, 14, 29, 37]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 7: Tower of Hanoi
+Question:
+Write a Python program to solve the Tower of Hanoi problem using recursion.
+Code:
+def tower(n, source, auxiliary, destination):
+    if n == 1:
+        print("Move disk 1 from", source, "to", destination)
+        return
+    tower(n-1, source, destination, auxiliary)
+    print("Move disk", n, "from", source, "to", destination)
+    tower(n-1, auxiliary, source, destination)
+ 
+n = int(input("Enter number of disks: "))
+tower(n, 'A', 'B', 'C')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Enter number of disks: 3
+Move disk 1 from A to C
+Move disk 2 from A to B
+Move disk 1 from C to B
+Move disk 3 from A to C
+Move disk 1 from B to A
+Move disk 2 from B to C
+Move disk 1 from A to C
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 10: Singly Linked List
+Question:
+Write a Python program to implement a Singly Linked List with insert, delete and display operations.
+Code:
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+ 
+    def insert(self, data):
+        new = Node(data)
+        if self.head is None:
+            self.head = new
+        else:
+            temp = self.head
+            while temp.next:
+                temp = temp.next
+            temp.next = new
+ 
+    def delete(self, key):
+        temp = self.head
+        if temp and temp.data == key:
+            self.head = temp.next
+            return
+        prev = None
+        while temp and temp.data != key:
+            prev = temp
+            temp = temp.next
+        if temp:
+            prev.next = temp.next
+ 
+    def display(self):
+        temp = self.head
+        while temp:
+            print(temp.data, end=" -> ")
+            temp = temp.next
+        print("None")
+ 
+ll = LinkedList()
+ll.insert(10)
+ll.insert(20)
+ll.insert(30)
+ll.display()
+ll.delete(20)
+ll.display()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+10 -> 20 -> 30 -> None
+10 -> 30 -> None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Practical 11: Doubly Linked List
+Question:
+Write a Python program to implement a Doubly Linked List with insert and display operations.
+Code:
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.prev = None
+        self.next = None
+ 
+class DLL:
+    def __init__(self):
+        self.head = None
+ 
+    def insert(self, data):
+        new = Node(data)
+        if self.head is None:
+            self.head = new
+            return
+        temp = self.head
+        while temp.next:
+            temp = temp.next
+        temp.next = new
+        new.prev = temp
+ 
+    def display(self):
+        temp = self.head
+        while temp:
+            print(temp.data, end=" <-> ")
+            temp = temp.next
+        print("None")
+ 
+dll = DLL()
+dll.insert(1)
+dll.insert(2)
+dll.insert(3)
+dll.display()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+1 <-> 2 <-> 3 <-> None
+Practical 12: Circular Linked List
+Question:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Write a Python program to implement a Circular Linked List with insert and display operations.
+Code:
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+class CircularLL:
+    def __init__(self):
+        self.head = None
+ 
+    def insert(self, data):
+        new = Node(data)
+        if self.head is None:
+            self.head = new
+            new.next = self.head
+            return
+        temp = self.head
+        while temp.next != self.head:
+            temp = temp.next
+        temp.next = new
+        new.next = self.head
+ 
+    def display(self):
+        if self.head is None:
+            return
+        temp = self.head
+        while True:
+            print(temp.data, end=" -> ")
+            temp = temp.next
+            if temp == self.head:
+                break
+        print("(Head)")
+ 
+cll = CircularLL()
+cll.insert(10)
+cll.insert(20)
+cll.insert(30)
+cll.display()
+Output:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10 -> 20 -> 30 -> (Head)
+
+
+
+
+
+
+
+
+
+Practical 13: Matrix Operations
+Question:
+Write a Python program to perform addition, subtraction, multiplication and transpose of matrices.
+Code:
+A = [[1,2],
+     [3,4]]
+B = [[5,6],
+     [7,8]]
+ 
+# Addition
+print("Addition")
+for i in range(2):
+    row = []
+    for j in range(2):
+        row.append(A[i][j] + B[i][j])
+    print(row)
+ 
+# Subtraction
+print("\nSubtraction")
+for i in range(2):
+    row = []
+    for j in range(2):
+        row.append(A[i][j] - B[i][j])
+    print(row)
+ 
+# Multiplication
+print("\nMultiplication")
+result = [[0,0],[0,0]]
+for i in range(2):
+    for j in range(2):
+        for k in range(2):
+            result[i][j] += A[i][k] * B[k][j]
+for row in result:
+    print(row)
+ 
+# Transpose
+print("\nTranspose of A")
+transpose = []
+for i in range(len(A[0])):
+    row = []
+    for j in range(len(A)):
+        row.append(A[j][i])
+    transpose.append(row)
+for row in transpose:
+    print(row)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
+Addition
+[6, 8]
+[10, 12]
+ 
+Subtraction
+[-4, -4]
+[-4, -4]
+ 
+Multiplication
+[19, 22]
+[43, 50]
+ 
+Transpose of A
+[1, 3]
+[2, 4]
+
+
